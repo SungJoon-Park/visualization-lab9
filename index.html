@@ -1,29 +1,84 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Vega-lite</title>
-
-        <!-- Milligram CSS -->
-        <link rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"
-            />
-        <link rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"
-            />
-        <link rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"
-            />
-
-        <!-- <link rel="stylesheet" href="style.css" /> -->
-        <script defer src="https://d3js.org/d3.v6.min.js"></script>
-        <!-- <script src="script.js" defer type="module"></script> -->
-
+        <meta charset="utf-8" />
+        <title>Vega-Lite</title>
+        <script src="https://cdn.jsdelivr.net/npm/vega@5.17.0"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.17.0"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.12.2"></script>
     </head>
 
     <body>
         <div class="container"></div>
+        <script>
+            var vlSpec = {
+                "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+                "data": {"url": "https://api.covidtracking.com/v1/states/current.csv"},
+                "vconcat":[
+                    {
+                        'width': 800,
+                        'height':200,
+                        'mark': {
+                            'type': 'point'
+                        },
+                        'encoding': {
+                            'x':{
+                                'field':'positive',
+                                'type':'quantitative'
+                            },
+                            'y': {
+                                'field': 'death',
+                                'type': 'quantitative'
+                            },
+                            'color': {
+                                'field': 'dataQualityGrade',
+                                'type': 'nominal'
+                            },
+                            'tooltip': {
+                                'field': 'state',
+                                'type': 'nominal'
+                            }
+                        },
+                        'selection': {
+                            'brush': {
+                                'type': 'interval'
+                            }
+                        }
+                    },
+                    {
+                        'repeat': [
+                            'hospitalizedCumulative', 'recovered'
+                        ],
+                        'columns': 1,
+                        'spec': {
+                            'width': 800,
+                            'height':100,
+                            'mark':'bar',
+                            'encoding': {
+                                'x': {
+                                    'field': 'state',
+                                    'type': 'nominal'
+                                },
+                                'y': {
+                                    'field': {
+                                        'repeat': 'repeat'
+                                    },
+                                    'type': 'quantitative'
+                                }
+                            },
+                            'transform': [
+                                {
+                                    'filter': {
+                                        'selection': 'brush'
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ]
+            };
+            vegaEmbed('.container',vlSpec);
+        </script>
     </body>
 
 </html>
