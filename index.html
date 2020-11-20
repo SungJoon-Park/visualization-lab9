@@ -74,7 +74,47 @@
                                 }
                             ]
                         }
-                    }
+                    },
+                    // {
+                    //     "transform": [
+                    //             {
+                    //                 "lookup": "fips",
+                    //                 "from": {
+                    //                     "data": {
+                    //                     "url": "https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json",
+                    //                     "format": {
+                    //                     "type": "topojson",
+                    //                         "feature": "states"
+                    //                     }
+                    //                     },
+                    //                     "key": "id"
+                    //                 },
+                    //                 "as": "geo"
+                    //             }
+                    //         ],
+                    //     'repeat':[
+                    //         'hospitalizedCumulative','recovered'
+                    //     ],
+                    //     'columns': 2,
+                    //     'spec':{
+                    //         'width':400,
+                    //         'mark':'geoshape',
+                            
+                    //         "projection": {"type": "albersUsa"},
+                    //         "shape": {
+                    //             "field": "geo",
+                    //             "type": "geojson"
+                    //         },
+                    //         "color": {
+                    //             "condition":{ // when brush is active, apply color encoding
+                    //                 "selection":"brush", // testing by selection
+                    //                 "field": {"repeat":"repeat"},
+                    //                 "type": "quantitative"
+                    //             },
+                    //             "value":"grey" // otherwise use gray
+                    //         }
+                    //     }
+                    // }
                 ]
             };
             vegaEmbed('.container',vlSpec);
